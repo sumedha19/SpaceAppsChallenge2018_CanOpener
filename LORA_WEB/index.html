@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Can Opener</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="src/bootstrap.min.css">
+  <script src="src/jquery.min.js"></script>
+  <script src="src/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1>Can Opener</h1>
+  <p>Dont forgt the can opener</p> 
+</div>
+  
+<div class="container" id="pre_load" >
+  <div class="row">
+     <div class="col-sm-4">
+      <h3>Working</h3>        
+      <p>Engine Used to detect if it type of disaster with confidence level</p>
+      <p> CNN architecture with - Flood,Earthquake,Cyclone,VOlanic eruption and no-calamaity </p>
+    </div>
+
+    <div class="col-sm-4">
+      <h3>Upload Satelite Image</h3>
+      <p><input id="output"  onchange="readURL(this);" type="file"></p>
+
+    </div>
+     <div class="col-sm-4">
+      <p>Please upload Satellite images to detect the natural calamities</p>
+    </div>
+
+    
+  </div>
+
+</div>
+
+
+<div class="container" id="load" style="display:none" >
+  <div class="row">
+     <div class="col-md-6">
+      <h3>Image</h3>        
+      <p> Reading the image</p>
+      <img id="ShowImage" src="#" />
+    </div>
+     <div class="col-md-5">
+      <h3>Prediction</h3>        
+      <p> Flood : 0.84 </p>
+      <p> Earthquake: 0.09 </p>
+      <p> Cyclonic: 0.04 </p> 
+      <p> Volcano: 0.01 </p>
+      <p></p>
+	<p>Normal : 0.02 </p>
+	<br><br>
+	<button type="button" class="btn btn-warning" onclick="location.href='warn.html'">WARN</button>
+        
+</div>
+      
+  </div>
+
+
+
+<script>
+ function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+	    $("#pre_load").hide();
+            $("#load").show();
+            reader.onload = function (e) {
+                $('#ShowImage')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+            
+        }
+    }
+</script>
+
+
+</body>
+</html>
+

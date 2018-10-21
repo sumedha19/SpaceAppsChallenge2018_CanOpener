@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Can Opener</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="src/bootstrap.min.css">
+  <script src="src/jquery.min.js"></script>
+  <script src="src/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1>LORA Gateway-Panel</h1>
+  <p>Initializing the Lora Network</p> 
+  <h4 style="float:right">No of People in Network : 2  &nbsp;&nbsp;</h4>
+   <div>
+	Broadcast Message :
+	 <input type="text"><button>Submit</button>
+	</div>
+</div>
+<div class="container" id="pre_load" >
+  <div class="row">
+     <div class="col-md-4 medicine" style="display:none" >
+      <h3>CheckList - Medicine</h3>        
+    	  <ul>
+	  <li>First Aid Kit</li>
+	  <li>Snake Bit Kit</li>
+	  <li>N95 Respirator Mask</li>
+	  <li>Special Medication</li>
+	  </ul>
+     </div>
+      <div class="col-md-4 basickit" style="display:none" >
+      <h3>CheckList - BasicKit</h3>        
+    	  <ul>
+	  <li>Batteries</li>
+	  <li>TorchLight</li>
+	  <li>Candle</li>
+	  <li>Cellphone & Charger</li>
+	  </ul>
+     </div>
+     
+     <div class="col-md-4" id="messages" >
+      <h3>Incoming Messages</h3>        
+    	 <b>Device :</b>
+		  <select>
+	  <option value="Device1">Device 1</option>
+	  <option value="Device 2">Device 2</option>
+	  <option value="Device 3">Device 3</option>
+	</select> 
+	 <ul id="message">
+	   <li>No Message</li>
+	  </ul>
+	<button class="btn btn-warning" onclick="show()" >Decipher</button>
+    </div>
+      <div class="col-md-4" id="decipher" style="display:none"   >
+     	 Request from Technopark <br>
+	 Item in need: <span id="item" >  <br><br>
+         Request Count :<br>
+		<div class="medicine" style="display:none">
+		First Aid Kit: <span id="m1">1<span><br>
+		Snake Bit Kit: <span id="m2">1<span><br>
+		N95 Respirator Mask: <span id="m3">1<span><br>
+		Special Medication: <span id="m4">1<span><br>
+		</div>
+		<div class="basickit" style="display:none">
+		Batteries: <span id="b1">1<span><br>
+		TorchLight: <span id="b2">1<span><br>
+		Candle: <span id="b3">1<span><br>
+		Cellphone & Charger: <span id="b4">1<span><br>
+		</div>
+      </div>
+ 
+  </div>
+  <script>
+	 if (window.WebSocket === undefined) {
+                  state.innerHTML = "sockets not supported";
+                  state.className = "fail";
+               }else {
+                  if (typeof String.prototype.startsWith != "function") {
+                     String.prototype.startsWith = function (str) {
+                        return this.indexOf(str) == 0;
+                     };
+                  }
+						
+                  window.addEventListener("load", onLoad, true);
+               }
+	 function onLoad() {
+	alert('Loading...');	
+	var wsUri = "ws://192.168.225.186:81/";
+	websocket = new WebSocket(wsUri);
+	console.log(window.mywebsocket)
+        websocket.onopen = function(evt) { alert("LORA gateway established"); };
+        websocket.onclose = function(evt) { alert("LORA closed") };
+        websocket.onmessage = function(evt) { 
+		var data=evt.data;
+		console.log("test"+data);
+		if(data){		
+		alert("Received "+evt.data);
+		var ul = document.getElementById("message");
+		var li = document.createElement("li");
+		li.appendChild(document.createTextNode(data));
+  		ul.appendChild(li);	
+		if(data=="m"){
+			$(".medicine").show();
+			$(".basickit").hide();
+		}else if (data=="f"){
+			$(".medicine").hide();
+			$(".basickit").show();
+		}
+		}
+	};
+        websocket.onerror = function(evt) { console.log(evt); };   
+	}
+	
+	function show(){
+		$("#decipher").toggle()
+	}
+  </script>
+
+</div>
+
+
+
+
+
+</body>
+</html>
+
